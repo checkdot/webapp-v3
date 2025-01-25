@@ -1,0 +1,76 @@
+.asset-modal-input {
+  .input-container {
+    .custom-input {
+      height: 4.5rem;
+      padding: 1.25rem 1rem 2rem;
+      padding-right: 6rem;
+      text-align: right;
+      line-height: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .input-addon {
+      &.right {
+        pointer-events: none;
+        user-select: none;
+        z-index: 0;
+        
+        .asset-info {
+          transform: translateY(-25%);
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          min-width: 5rem;
+
+          .symbol {
+            font-size: 1.125rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+            text-align: right;
+            line-height: 1.5rem;
+          }
+
+          .price {
+            position: absolute;
+            right: 0;
+            top: calc(100% - 0.25rem);
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 0.01em;
+            white-space: nowrap;
+            text-align: right;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+
+      &.left {
+        z-index: 2;
+        pointer-events: auto;
+        
+        .max-button {
+          background: rgba(70, 195, 123, 0.1);
+          border: 1px solid rgba(70, 195, 123, 0.3);
+          color: rgb(70, 195, 123);
+          padding: 0.25rem 0.75rem;
+          border-radius: 4px;
+          font-size: 0.6875rem;
+          font-weight: 600;
+          letter-spacing: 0.03em;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          text-transform: uppercase;
+
+          &:hover {
+            background: rgba(70, 195, 123, 0.15);
+          }
+        }
+      }
+    }
+  }
+} 

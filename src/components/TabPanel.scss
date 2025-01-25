@@ -1,0 +1,116 @@
+.tab-panel {
+    width: 100%;
+    background: rgba(24, 23, 41, 0.5);
+    border-radius: 12px;
+    padding: 1.75rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+
+    .tab-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.75rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 1rem;
+
+        .tab-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .tab-button {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 0.625rem 1.25rem;
+            font-weight: 400;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.2s ease;
+
+            &.active {
+                color: #46c37b;
+                font-weight: 500;
+
+                &:after {
+                    content: '';
+                    position: absolute;
+                    bottom: -1rem;
+                    left: 0;
+                    width: 100%;
+                    height: 3px;
+                    background: #46c37b;
+                    border-radius: 3px 3px 0 0;
+                    box-shadow: 0 0 8px rgba(70, 195, 123, 0.3);
+                }
+            }
+
+            &:hover:not(.active) {
+                color: rgba(255, 255, 255, 0.9);
+            }
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    .tab-content {
+        // Le contenu des onglets sera stylisé par le composant parent
+    }
+
+    .stats-panel {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(16, 15, 28, 0.6);
+        border-radius: 12px;
+        padding: 1.25rem;
+        margin: 1.5rem 0;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+
+        .stat-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 0.375rem;
+            position: relative;
+
+            .stat-label {
+                font-size: 0.8125rem;
+                color: rgba(255, 255, 255, 0.5);
+                font-weight: 400;
+                letter-spacing: 0.01em;
+            }
+
+            .stat-value {
+                font-size: 1.375rem;
+                color: white;
+                font-weight: 500;
+                letter-spacing: -0.01em;
+                transition: all 0.2s ease;
+            }
+
+            &:hover {
+                .stat-value {
+                    transform: scale(1.05);
+                    color: #46c37b;
+                }
+            }
+        }
+
+        .stat-separator {
+            width: 1px;
+            height: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 0 1.25rem;
+            flex-shrink: 0;
+        }
+    }
+}

@@ -1,0 +1,97 @@
+.input-wrapper {
+  width: 100%;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  .input-label {
+    display: block;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    margin-bottom: 0.5rem;
+  }
+
+  .input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    .input-addon {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      height: 100%;
+      
+      &.left {
+        left: 1rem;
+      }
+      
+      &.right {
+        right: 1rem;
+      }
+    }
+
+    .custom-input {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      color: white;
+      font-size: 1.125rem;
+      padding: 0.75rem 1rem;
+      outline: none;
+      transition: all 0.2s ease;
+      height: 3.5rem;
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.3);
+      }
+
+      &:focus {
+        border-color: rgba(70, 195, 123, 0.3);
+        box-shadow: 0 0 0 2px rgba(70, 195, 123, 0.1);
+      }
+
+      &.has-error {
+        border-color: rgb(255, 71, 87);
+        box-shadow: 0 0 0 2px rgba(255, 71, 87, 0.1);
+      }
+
+      &.with-left-addon {
+        padding-left: 3.5rem;
+      }
+
+      &.with-right-addon {
+        padding-right: 4.2rem;
+      }
+
+      // Retire les flèches pour Chrome, Safari, Edge, Opera
+      &[type="number"]::-webkit-inner-spin-button,
+      &[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      // Retire les flèches pour Firefox
+      &[type="number"] {
+        -moz-appearance: textfield;
+      }
+    }
+  }
+
+  .input-error {
+    color: rgb(255, 71, 87);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+    letter-spacing: 0.01em;
+  }
+
+  .price-info {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: right;
+  }
+} 

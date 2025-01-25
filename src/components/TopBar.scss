@@ -1,0 +1,164 @@
+.top-bar {
+    width: 100%;
+    background-color: var(--top-bar-bg);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+    height: 60px;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.top-bar-content {
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+.top-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+
+    .nav-logo {
+        height: 32px;
+        width: auto;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 2rem;
+
+        a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9375rem;
+            letter-spacing: 0.01em;
+            transition: color 0.2s ease;
+
+            &:hover {
+                color: var(--accent-color);
+            }
+        }
+    }
+}
+
+.top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .theme-toggle-button {
+        background: none;
+        border: none;
+        padding: 8px;
+        cursor: pointer;
+        color: var(--text-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.2s ease, color 0.2s ease;
+
+        &:hover {
+            background-color: var(--hover-color);
+            color: var(--accent-color);
+        }
+
+        svg {
+            transition: transform 0.2s ease;
+        }
+
+        &:hover svg {
+            transform: rotate(15deg);
+        }
+    }
+
+    .refresh-button {
+        background: var(--hover-color);
+        border: 1px solid var(--border-color);
+        padding: 0.5rem;
+        border-radius: 8px;
+        color: var(--text-color);
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            background: rgba(70, 195, 123, 0.1);
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .spinning {
+            animation: spin 1s linear infinite;
+        }
+    }
+
+    .connect-wallet-button {
+        background: linear-gradient(135deg, var(--accent-color) 0%, #3ba167 100%);
+        color: white;
+        border: none;
+        padding: 0.625rem 1.25rem;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 0.9375rem;
+        letter-spacing: 0.01em;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 8px rgba(70, 195, 123, 0.25);
+
+        &:hover {
+            background: linear-gradient(135deg, var(--accent-hover) 0%, #42b574 100%);
+            transform: translateY(-1px);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+
+        .wallet-icon {
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        &.connected {
+            background: rgba(70, 195, 123, 0.1);
+            border: 1px solid rgba(70, 195, 123, 0.3);
+            color: #46c37b;
+            box-shadow: none;
+
+            &:hover {
+                background: rgba(70, 195, 123, 0.15);
+                border-color: #46c37b;
+                transform: translateY(-1px);
+            }
+        }
+
+        span {
+            vertical-align: middle;
+            font-family: monospace;
+        }
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+} 
