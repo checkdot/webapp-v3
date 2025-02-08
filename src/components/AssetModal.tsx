@@ -6,6 +6,7 @@ import { useWallet } from '../contexts/WalletContext';
 import { useLoading } from '../contexts/LoadingContext';
 import { useAccount, useBalance } from 'wagmi';
 import { formatUnits } from 'viem';
+import { useAssets } from '../contexts/AssetsContext';
 
 interface AssetModalProps {
     isOpen: boolean;
@@ -29,6 +30,7 @@ const AssetModal: React.FC<AssetModalProps> = ({ isOpen, onClose, asset }) => {
     const tabs = ['Deposit', 'Borrow', 'Withdraw', 'Repay'];
     const [inputValue, setInputValue] = useState('');
     const { address: userAddress } = useAccount();
+    const { depositedAssets, borrowedAssets } = useAssets();
     
     // Récupération de la balance du token
     const { data: tokenBalance } = useBalance({
@@ -83,6 +85,13 @@ const AssetModal: React.FC<AssetModalProps> = ({ isOpen, onClose, asset }) => {
                 ? formatBalance(tokenBalance.value, tokenBalance.decimals)
                 : '0.00'
         : '0.00';
+
+    // Trouver les données de dépôt pour cet asset
+    const depositedAsset = depositedAssets.find(a => a.symbol === asset?.symbol);
+    const depositedAmount = depositedAsset?.balance || 0;
+    
+    // Calculer la valeur en USD
+    const depositedValue = depositedAmount * (asset?.price || 0);
 
     const handleAction = async () => {
         if (!isConnected) {
@@ -155,7 +164,7 @@ const AssetModal: React.FC<AssetModalProps> = ({ isOpen, onClose, asset }) => {
                         </div>
                         <div className="info-item">
                             <span className="label">Deposited</span>
-                            <span className="value">{asset.deposited} {asset.symbol}</span>
+                            <span className="value">{depositedAmount.toLocaleString()} {asset.symbol} <span className="ml-2 text-gray-600">(${depositedValue.toLocaleString(undefined, { maximumFractionDigits: 2 })})</span></span>
                         </div>
                     </div>
                 </div>
@@ -169,7 +178,10 @@ const AssetModal: React.FC<AssetModalProps> = ({ isOpen, onClose, asset }) => {
                         <div className="asset-stats">
                             <div className="stat-row">
                                 <span>Deposit APR</span>
-                                <span>{asset.depositAPR}</span>
+                                <span>{new Intl.NumberFormat('en-US', { 
+                                    style: 'percent', 
+                                    maximumFractionDigits: 2 
+                                }).format(parseFloat(asset.depositAPR))}</span>
                             </div>
                             <div className="stat-row">
                                 <span>Your borrow limit</span>
@@ -269,7 +281,7 @@ const AssetModal: React.FC<AssetModalProps> = ({ isOpen, onClose, asset }) => {
                         <div className="asset-stats">
                             <div className="stat-row">
                                 <span>Available to withdraw</span>
-                                <span>{asset.deposited} {asset.symbol}</span>
+                                <span>{depositedAmount.toLocaleString()} {asset.symbol}</span>
                             </div>
                             <div className="stat-row">
                                 <span>Your borrow limit</span>
