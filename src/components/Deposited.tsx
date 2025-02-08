@@ -1,20 +1,21 @@
 import { useAccount } from 'wagmi';
+import { useState } from 'react';
 import './Accounts.scss';
-
-const depositedAssets = [
-    {
-        symbol: 'USDS',
-        icon: '/icons/usds.png',
-        price: '1.00',
-        deposits: {
-            amount: '10.0180',
-            value: '10.03'
-        }
-    }
-];
 
 const Deposited = () => {
     const { isConnected } = useAccount();
+    
+    const [depositedAssets] = useState([
+        {
+            symbol: 'USDS',
+            icon: '/icons/usds.png',
+            price: '1.00',
+            deposits: {
+                amount: '10.0180',
+                value: '10.03'
+            }
+        }
+    ]);
 
     if (!isConnected) {
         return null;

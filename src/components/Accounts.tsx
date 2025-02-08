@@ -1,16 +1,17 @@
 import { useWallet } from '../contexts/WalletContext';
 import { useAccount } from 'wagmi';
+import { useState } from 'react';
 import './Accounts.scss';
-
-const accountStats = {
-    equity: '6.00',
-    deposits: '10.02',
-    borrows: '4.02'
-};
 
 const Accounts = () => {
     const { connect, disconnect } = useWallet();
     const { isConnected } = useAccount();
+    
+    const [accountStats] = useState({
+        equity: '6.00',
+        deposits: '10.02',
+        borrows: '4.02'
+    });
 
     if (!isConnected) {
         return (
