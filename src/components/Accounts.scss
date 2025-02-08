@@ -80,19 +80,39 @@
             }
 
             &-right {
-                text-align: right;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                min-width: 0;
+                flex-shrink: 1;
+                overflow: hidden;
+
+                .equity-value,
+                .deposits-value,
+                .borrows-value {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    max-width: 100%;
+                    display: inline-block;
+                }
 
                 .balance {
-                    color: white;
-                    font-family: 'Roboto Mono', monospace;
-                    font-size: 0.875rem;
                     font-weight: 500;
+                    color: var(--text-color);
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    max-width: 100%;
                 }
 
                 .usd-value {
-                    color: rgba(255, 255, 255, 0.6);
-                    font-size: 0.75rem;
-                    margin-top: 0.25rem;
+                    font-size: 0.875rem;
+                    color: var(--text-secondary);
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    max-width: 100%;
                 }
             }
         }

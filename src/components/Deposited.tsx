@@ -1,30 +1,13 @@
 import { useAccount } from 'wagmi';
-import { useState } from 'react';
+import { useAssets } from '../contexts/AssetsContext';
 import './Accounts.scss';
 
 const Deposited = () => {
     const { isConnected } = useAccount();
-    
-    const [depositedAssets] = useState([
-        {
-            symbol: 'USDS',
-            icon: '/icons/usds.png',
-            price: '1.00',
-            deposits: {
-                amount: '10.0180',
-                value: '10.03'
-            }
-        },
-        {
-            symbol: 'USDS',
-            icon: '/icons/usds.png',
-            price: '1.00',
-            deposits: {
-                amount: '10.0180',
-                value: '10.03'
-            }
-        }
-    ]);
+    const { depositedAssets } = useAssets();
+    const { address } = useAccount();
+
+    console.log('Deposited assets:', depositedAssets);
 
     if (!isConnected) {
         return null;
@@ -35,7 +18,7 @@ const Deposited = () => {
             <h2>Deposited assets</h2>
             <div className="account-info">
                 <div className="accounts-list">
-                    {depositedAssets.map((asset) => (
+                    {(depositedAssets || []).map((asset) => (
                         <div key={asset.symbol} className="account-item">
                             <div className="account-item-left">
                                 <img src={asset.icon} alt={asset.symbol} />

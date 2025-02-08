@@ -2,16 +2,17 @@ import { useWallet } from '../contexts/WalletContext';
 import { useAccount } from 'wagmi';
 import { useState } from 'react';
 import './Accounts.scss';
+import { useAssets } from '../contexts/AssetsContext';
 
 const Accounts = () => {
     const { connect, disconnect } = useWallet();
     const { isConnected } = useAccount();
+    const { depositedAssets, borrowedAssets } = useAssets();
     
-    const [accountStats] = useState({
-        equity: '6.00',
-        deposits: '10.02',
-        borrows: '4.02'
-    });
+    // Calcul des totaux
+    const totalDeposits = depositedAssets.reduce((acc, asset) => acc + parseFloat(asset.deposits.value), 0);
+    const totalBorrows = borrowedAssets.reduce((acc, asset) => acc + parseFloat(asset.borrows.value), 0);
+    const equity = totalDeposits - totalBorrows;
 
     if (!isConnected) {
         return (
@@ -34,17 +35,17 @@ const Accounts = () => {
                 <div className="equity-formula">
                     <div className="equity">
                         <span>Equity</span>
-                        <span>${accountStats.equity}</span>
+                        <span>${equity.toFixed(0)}</span>
                     </div>
                     <span>=</span>
                     <div className="deposits">
                         <span>Deposits</span>
-                        <span>${accountStats.deposits}</span>
+                        <span>${totalDeposits.toFixed(0)}</span>
                     </div>
                     <span>-</span>
                     <div className="borrows">
                         <span>Borrows</span>
-                        <span>${accountStats.borrows}</span>
+                        <span>${totalBorrows.toFixed(0)}</span>
                     </div>
                 </div>
                 <button 

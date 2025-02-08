@@ -92,6 +92,18 @@ const AssetModal: React.FC<AssetModalProps> = ({ isOpen, onClose, asset }) => {
 
         startLoading('transaction');
         try {
+            // Envoyer la transaction d'emprunt à l'API
+            await fetch(`http://localhost:3000/api/tokens/${asset.symbol}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    borrower: {
+                        address: userAddress,
+                        amount: inputValue
+                    }
+                })
+            });
+
             // Simulation d'une transaction
             await new Promise(resolve => setTimeout(resolve, 2000));
             // Logique de transaction ici

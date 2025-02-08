@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect, useCallback } from 'react';
 import { useAccount, useBalance, useToken } from 'wagmi';
 import { formatUnits } from 'viem';
 import { erc20Abi } from 'viem'
@@ -44,6 +44,7 @@ interface AssetsContextType {
   initialAssets: Asset[];
   borrowedAssets: Asset[];
   updateBorrowedAssets: (assets: Asset[]) => void;
+  depositedAssets: Asset[];
 }
 
 const initialAssets: Asset[] = [
@@ -175,6 +176,7 @@ export const AssetsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [pools] = useState<Pool[]>(initialPools);
   const { address: userAddress, isConnected } = useAccount();
   const [borrowedAssets, setBorrowedAssets] = useState<Asset[]>([]);
+  const [depositedAssets, setDepositedAssets] = useState<Asset[]>([]);
 
   // Balance ETH natif
   const { data: ethBalance } = useBalance({
@@ -269,6 +271,52 @@ export const AssetsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     setBorrowedAssets(assets);
   };
 
+  useEffect(() => {
+    const fetchBorrowedAssets = async () => {
+      if (!userAddress) return;
+      
+      try {
+        const response = await fetch(`http://localhost:3000/api/borrowed/${userAddress}`);
+        const data = await response.json();
+        setBorrowedAssets(data);
+      } catch (error) {
+        console.error('Error fetching borrowed assets:', error);
+      }
+    };
+
+    fetchBorrowedAssets();
+  }, [userAddress]);
+
+  const fetchDepositedAssets = useCallback(async (walletAddress: string) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/deposited/${walletAddress}`);
+      const data = await response.json();
+      setDepositedAssets(data);
+    } catch (error) {
+      console.error("Error fetching deposited assets:", error);
+    }
+  }, []);
+
+  useEffect(() => {
+    const fetchAssets = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/tokens');
+        const data = await response.json();
+        
+        // ... existing asset processing code ...
+
+        if (userAddress) {
+          fetchDepositedAssets(userAddress);
+          // Fetch borrowed assets ici si nécessaire
+        }
+      } catch (error) {
+        console.error("Error fetching assets:", error);
+      }
+    };
+
+    fetchAssets();
+  }, [userAddress, fetchDepositedAssets]);
+
   return (
     <AssetsContext.Provider value={{ 
       assets, 
@@ -278,9 +326,10 @@ export const AssetsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       updateAsset, 
       refreshAssets,
       updateAssetBalances,
-      initialAssets,
+      initialAssets: [...mainAssets, ...isolatedAssets],
       borrowedAssets,
-      updateBorrowedAssets
+      updateBorrowedAssets,
+      depositedAssets
     }}>
       {children}
     </AssetsContext.Provider>
