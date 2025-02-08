@@ -11,7 +11,7 @@ const TopBar: React.FC = () => {
     const { refreshStats } = useStats();
     const { isLoading, startLoading, stopLoading } = useLoading();
     const { theme, toggleTheme } = useTheme();
-    const { updateAssetBalances, assets } = useAssets();
+    const { updateAssetBalances } = useAssets();
 
     const handleRefresh = async () => {
         startLoading('refresh');

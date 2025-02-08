@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import "./Table.scss";
 import { useModal } from '../contexts/ModalContext';
-import { useAssets } from '../contexts/AssetsContext';
 
 interface TableProps {
     data: {
@@ -19,7 +18,6 @@ const Table: React.FC<TableProps> = ({ data }) => {
         'ISOLATED ASSETS': false
     });
     const { openAssetModal } = useModal();
-    const { initialAssets } = useAssets();
 
     const toggleCategory = (categoryName: string) => {
         setOpenCategories(prev => ({
@@ -28,44 +26,31 @@ const Table: React.FC<TableProps> = ({ data }) => {
         }));
     };
 
-    const handleAssetClick = (row: React.ReactNode[]) => {
+    const handleAssetClick = async (row: React.ReactNode[]) => {
         try {
-            if (!row || row.length < 6) {
-                console.error("Données de ligne invalides");
-                return;
-            }
+            if (!row || row.length < 6) return;
 
             const assetCell = row[0] as React.ReactElement;
-            const depositCell = row[1] as React.ReactElement;
-            const depositAPR = row[4];
-            const borrowAPR = row[5];
-
-            if (assetCell?.props?.className === 'asset-name') {
+            if (assetCell.props.children) {
                 const symbol = assetCell.props.children[1].props.children[0].props.children;
-                const assetData = initialAssets.find(a => a.symbol === symbol);
                 
-                if (!assetData) {
-                    console.error("Asset non trouvé dans initialAssets");
-                    return;
-                }
+                // Récupération depuis le backend
+                const response = await fetch(`http://localhost:3000/api/tokens/${symbol}`);
+                const assetInfo = await response.json();
 
-                const assetInfo = {
-                    symbol: symbol,
-                    icon: assetCell.props.children[0].props.src,
-                    price: assetCell.props.children[1].props.children[1].props.children,
-                    balance: "0",
-                    deposited: depositCell.props.children[0].props.children,
-                    depositAPR: typeof depositAPR === 'string' ? depositAPR : '0%',
-                    borrowAPR: typeof borrowAPR === 'string' ? borrowAPR : '0%',
-                    address: assetData.address
-                };
-                openAssetModal(assetInfo);
-            } else {
-                console.error("Structure de cellule asset invalide");
+                openAssetModal({
+                    symbol: assetInfo.symbol,
+                    icon: assetInfo.icon,
+                    address: assetInfo.address,
+                    price: assetInfo.price,
+                    deposits: assetInfo.deposits,
+                    borrows: assetInfo.borrows,
+                    depositAPR: assetInfo.depositAPR,
+                    borrowAPR: assetInfo.borrowAPR
+                });
             }
         } catch (error) {
-            console.error("Erreur lors de l'extraction des données de l'asset:", error);
-            console.log("Row data:", row);
+            console.error("Erreur de récupération des données:", error);
         }
     };
 
