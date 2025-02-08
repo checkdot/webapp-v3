@@ -2,9 +2,15 @@ import { useWallet } from '../contexts/WalletContext';
 import { useAccount } from 'wagmi';
 import './Accounts.scss';
 
+const accountStats = {
+    equity: '6.00',
+    deposits: '10.02',
+    borrows: '4.02'
+};
+
 const Accounts = () => {
     const { connect, disconnect } = useWallet();
-    const { address, isConnected } = useAccount();
+    const { isConnected } = useAccount();
 
     if (!isConnected) {
         return (
@@ -24,9 +30,22 @@ const Accounts = () => {
         <div className="accounts-panel">
             <h2>Account</h2>
             <div className="account-info">
-                <p className="address">
-                    {address?.slice(0, 6)}...{address?.slice(-4)}
-                </p>
+                <div className="equity-formula">
+                    <div className="equity">
+                        <span>Equity</span>
+                        <span>${accountStats.equity}</span>
+                    </div>
+                    <span>=</span>
+                    <div className="deposits">
+                        <span>Deposits</span>
+                        <span>${accountStats.deposits}</span>
+                    </div>
+                    <span>-</span>
+                    <div className="borrows">
+                        <span>Borrows</span>
+                        <span>${accountStats.borrows}</span>
+                    </div>
+                </div>
                 <button 
                     className="disconnect-button"
                     onClick={disconnect}

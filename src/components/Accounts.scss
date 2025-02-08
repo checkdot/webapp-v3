@@ -96,6 +96,10 @@
                 }
             }
         }
+
+        .disconnect-button {
+            align-self: flex-end;
+        }
     }
 
     .connect-button, .disconnect-button {
@@ -167,4 +171,43 @@
     text-align: center;
     padding: 24px;
     color: var(--text-secondary);
+}
+
+.equity-formula {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: var(--background-dark);
+    border-radius: 8px;
+
+    .equity, .deposits, .borrows {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        span:first-child {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        span:last-child {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+    }
+
+    .equity span:last-child {
+        color: var(--success);
+    }
+
+    .borrows span:last-child {
+        color: var(--error);
+    }
+
+    > span {
+        color: var(--text-secondary);
+        font-size: 16px;
+    }
 }
