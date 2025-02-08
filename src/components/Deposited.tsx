@@ -14,6 +14,15 @@ const Deposited = () => {
                 amount: '10.0180',
                 value: '10.03'
             }
+        },
+        {
+            symbol: 'USDS',
+            icon: '/icons/usds.png',
+            price: '1.00',
+            deposits: {
+                amount: '10.0180',
+                value: '10.03'
+            }
         }
     ]);
 

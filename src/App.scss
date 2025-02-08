@@ -68,14 +68,17 @@ button {
   display: flex;
   align-items: flex-start;
   gap: 1.25rem;
+  height: calc(100vh - 150px);
 
   > :first-child {
     flex: 1;
+    overflow-y: auto;
   }
 
   > :last-child {
     flex-shrink: 0;
     width: 280px;
+    overflow-y: auto;
   }
 }
 
@@ -216,4 +219,20 @@ button {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+}
+
+.accounts-layout {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  // padding-right: 8px;
+  
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+  }
 }
