@@ -32,20 +32,22 @@ const Accounts = () => {
         <div className="accounts-panel">
             <h2>Account</h2>
             <div className="account-info">
-                <div className="equity-formula">
-                    <div className="equity">
-                        <span>Equity</span>
-                        <span>${equity.toFixed(0)}</span>
-                    </div>
-                    <span>=</span>
-                    <div className="deposits">
-                        <span>Deposits</span>
-                        <span>${totalDeposits.toFixed(0)}</span>
-                    </div>
-                    <span>-</span>
-                    <div className="borrows">
-                        <span>Borrows</span>
-                        <span>${totalBorrows.toFixed(0)}</span>
+                <div className="equity-values">
+                    <div className="value-row">
+                        <div className="value-item">
+                            <span>Equity</span>
+                            <span>${equity.toFixed(0)}</span>
+                        </div>
+                        <span>=</span>
+                        <div className="value-item">
+                            <span>Deposits</span>
+                            <span>${totalDeposits.toFixed(0)}</span>
+                        </div>
+                        <span>-</span>
+                        <div className="value-item">
+                            <span>Borrows</span>
+                            <span>${totalBorrows.toFixed(0)}</span>
+                        </div>
                     </div>
                 </div>
                 <button 
