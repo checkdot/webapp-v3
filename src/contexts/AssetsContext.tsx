@@ -42,6 +42,8 @@ interface AssetsContextType {
   refreshAssets: () => Promise<void>;
   updateAssetBalances: () => Promise<void>;
   initialAssets: Asset[];
+  borrowedAssets: Asset[];
+  updateBorrowedAssets: (assets: Asset[]) => void;
 }
 
 const initialAssets: Asset[] = [
@@ -172,6 +174,7 @@ export const AssetsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [assets, setAssets] = useState<Asset[]>(initialAssets);
   const [pools] = useState<Pool[]>(initialPools);
   const { address: userAddress, isConnected } = useAccount();
+  const [borrowedAssets, setBorrowedAssets] = useState<Asset[]>([]);
 
   // Balance ETH natif
   const { data: ethBalance } = useBalance({
@@ -261,6 +264,11 @@ export const AssetsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   // Filtrage des assets isolés
   const isolatedAssets = assets.filter(asset => asset.isIsolated);
 
+  // Ajouter une méthode pour mettre à jour les borrowed assets
+  const updateBorrowedAssets = (assets: Asset[]) => {
+    setBorrowedAssets(assets);
+  };
+
   return (
     <AssetsContext.Provider value={{ 
       assets, 
@@ -270,7 +278,9 @@ export const AssetsProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       updateAsset, 
       refreshAssets,
       updateAssetBalances,
-      initialAssets
+      initialAssets,
+      borrowedAssets,
+      updateBorrowedAssets
     }}>
       {children}
     </AssetsContext.Provider>

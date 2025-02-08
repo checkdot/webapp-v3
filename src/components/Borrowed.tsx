@@ -1,22 +1,11 @@
 import { useAccount } from 'wagmi';
-import { useState } from 'react';
+import { useAssets } from '../contexts/AssetsContext';
 
 import './Accounts.scss';
 
 const Borrowed = () => {
     const { isConnected } = useAccount();
-    
-    const [borrowedAssets] = useState([
-        {
-            symbol: 'USDS',
-            icon: '/icons/usds.png',
-            price: '1.00',
-            borrows: {
-                amount: '5.0180',
-                value: '5.03'
-            }
-        }
-    ]);
+    const { borrowedAssets } = useAssets();
 
     if (!isConnected) {
         return null;
