@@ -4,9 +4,10 @@
     background: rgba(24, 23, 41, 0.5);
     border-radius: 12px;
     padding: 1.75rem;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+    z-index: 1;
 
     .tab-header {
         display: flex;

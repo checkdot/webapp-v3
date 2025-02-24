@@ -145,6 +145,7 @@ function App() {
                           <TopBar />
                           <LoadingIndicator />
                           <MainContent />
+                        
                         </>
                       } />
                       <Route path="*" element={<Navigate to="/" replace />} />
