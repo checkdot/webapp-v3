@@ -1,6 +1,9 @@
 import './Landing.scss'
+import { useNavigate } from 'react-router-dom';
 
 function Landing() {
+  const navigate = useNavigate();
+
   return (
     <div className="landing-container">
       <div className="background-elements">
@@ -40,7 +43,7 @@ function Landing() {
             <span>Total Volume: <strong>$2B+</strong></span>
           </div>
         </div>
-        <button className="launch-btn">
+        <button className="launch-btn" onClick={() => navigate('/app')}>
           Launch App
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
             <path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" strokeWidth="2"/>
@@ -111,12 +114,12 @@ function Landing() {
 
         <img src="/icons/eth.svg" alt="" className="token-icon" />
         <img src="/icons/btc.png" alt="" className="token-icon" />
-        <img src="/icons/usdt.png" alt="" className="token-icon" />
+        {/* <img src="/icons/usdt.png" alt="" className="token-icon" /> */}
         <img src="/icons/bnb.png" alt="" className="token-icon" />
-        <img src="/icons/usdc.png" alt="" className="token-icon" />
-        <img src="/icons/link.png" alt="" className="token-icon" />
+        <img src="/icons/usds.png" alt="" className="token-icon" />
+        {/* <img src="/icons/link.png" alt="" className="token-icon" />
         <img src="/icons/uni.png" alt="" className="token-icon" />
-        <img src="/icons/aave.png" alt="" className="token-icon" />
+        <img src="/icons/aave.png" alt="" className="token-icon" /> */}
       </div>
     </div>
   );

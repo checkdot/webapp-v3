@@ -8,6 +8,8 @@ import { AssetsProvider, useAssets } from './contexts/AssetsContext';
 import { ModalProvider } from './contexts/ModalContext';
 import TopBar from './components/TopBar';
 import LoadingIndicator from './components/LoadingIndicator';
+import Landing from './Landing';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 import './App.scss'
 import AssetsTable from './components/AssetsTable';
@@ -135,10 +137,18 @@ function App() {
               <StatsProvider>
                 <AssetsProvider>
                   <ModalProvider>
-                    <div id="modal-root" />
-                    <TopBar />
-                    <LoadingIndicator />
-                    <MainContent />
+                    <Routes>
+                      <Route path="/" element={<Landing />} />
+                      <Route path="/app" element={
+                        <>
+                          <div id="modal-root" />
+                          <TopBar />
+                          <LoadingIndicator />
+                          <MainContent />
+                        </>
+                      } />
+                      <Route path="*" element={<Navigate to="/" replace />} />
+                    </Routes>
                   </ModalProvider>
                 </AssetsProvider>
               </StatsProvider>

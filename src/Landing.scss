@@ -7,6 +7,8 @@
   position: relative;
   overflow-x: hidden;
   min-height: 100vh;
+  width: 100%;
+  z-index: 0;
 }
 
 .left-section {
@@ -19,7 +21,8 @@
   min-height: 70vh;
   
   .logo {
-    width: 80px;
+    width: 120px;
+    height: 120px;
     margin-bottom: 2rem;
   }
   
@@ -83,7 +86,7 @@
   height: 70vh;
   padding-right: 1rem;
   position: relative;
-  z-index: 1;
+  z-index: 3;
 }
 
 .stat-card {
@@ -107,21 +110,27 @@
     margin-bottom: 1.5rem;
     position: relative;
     z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
     
     &::after {
       content: '';
       position: absolute;
-      width: 40px;
-      height: 40px;
+      width: 100%;
+      height: 100%;
       background: rgba(255, 255, 255, 0.1);
       border-radius: 50%;
-      left: -8px;
-      top: -8px;
+      left: 0;
+      top: 0;
       z-index: -1;
     }
   }
   
   h2 {
+    margin-top: 0.5rem;
     font-size: 1.1rem;
     font-weight: 500;
     margin-bottom: 0.5rem;
@@ -438,7 +447,7 @@
                     linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
   background-size: 50px 50px;
   pointer-events: none;
-  z-index: -1;
+  z-index: 1;
 }
 
 .highlight {
@@ -467,7 +476,7 @@
   width: 50%;
   height: 120%;
   pointer-events: none;
-  z-index: 0;
+  z-index: 2;
   overflow: hidden;
   
   .rain-container {

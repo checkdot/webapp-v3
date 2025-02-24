@@ -5,6 +5,7 @@ import { useLoading } from '../contexts/LoadingContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAssets } from '../contexts/AssetsContext';
 import './TopBar.scss';
+import { Link } from 'react-router-dom';
 
 const TopBar: React.FC = () => {
     const { connect, disconnect, isConnected, address } = useWallet();
@@ -50,8 +51,6 @@ const TopBar: React.FC = () => {
                     <img src="/logo.png" alt="Logo" className="nav-logo" />
                     <nav className="nav-links">
                         <a href="#dashboard">Dashboard</a>
-                        <a href="#markets">Markets</a>
-                        <a href="#stake">Stake</a>
                     </nav>
                 </div>
                 <div className="top-bar-right">
