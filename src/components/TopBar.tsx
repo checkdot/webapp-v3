@@ -72,7 +72,7 @@ const TopBar: React.FC = () => {
                 <div className="top-bar-left">
                     <img src="/logo.png" alt="Logo" className="nav-logo" />
                     <nav className="nav-links">
-                        <a href="#dashboard">Dashboard</a>
+                        <a href="/app">Dashboard</a>
                     </nav>
                 </div>
                 <div className="top-bar-right">
