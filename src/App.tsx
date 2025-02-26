@@ -120,7 +120,7 @@ const MainContent = () => {
           <Accounts />
           <Deposited />
           <Borrowed />
-          <Balances />
+          {/* <Balances /> */}
         </div>
       </div>
     </div>
