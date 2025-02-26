@@ -7,8 +7,6 @@ const Deposited = () => {
     const { depositedAssets } = useAssets();
     const { address } = useAccount();
 
-    console.log('Deposited assets:', depositedAssets);
-
     if (!isConnected) {
         return null;
     }

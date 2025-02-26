@@ -163,9 +163,28 @@
                     justify-content: space-between;
                     align-items: center;
 
-                    .metric-label {
-                        font-size: 12px;
-                        color: var(--text-secondary);
+                    .metric-header {
+                        display: flex;
+                        align-items: center;
+                        gap: 6px;
+
+                        .color-indicator {
+                            width: 8px;
+                            height: 8px;
+                            border-radius: 2px;
+
+                            &.active {
+                                background: linear-gradient(90deg, #2ecc71 0%, #27ae60 100%);
+                            }
+
+                            &.warning {
+                                background: rgba(255, 255, 255, 0.3);
+                            }
+
+                            &.danger {
+                                background: #ff4757;
+                            }
+                        }
                     }
 
                     .metric-value {

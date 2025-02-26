@@ -15,23 +15,28 @@ const Accounts = () => {
     const equity = totalDeposits - totalBorrows;
     const netApr = 12.5; // À remplacer par le vrai calcul
 
-    // Valeurs de base
-    const position = 10.0370; // USDS
-    const price = 1.00; // Prix du USDS
-    const openLTV = 0.70; // Open LTV (70%)
-    const closeLTV = 0.77; // Close LTV (77%)
-    const borrowWeight = 1; // Borrow Weight
+    console.log(borrowedAssets)
 
-    // Calcul des valeurs principales
-    const weightedBorrows = 4.0387 * price * borrowWeight; // ≈ $4.04
-    const borrowLimit = position * price * openLTV; // ≈ $7.02
-    const liquidationThreshold = position * price * closeLTV; // ≈ $7.72
+    // Calcul du Weighted Borrows (somme des emprunts * leur BW respectif)
+    const weightedBorrows = borrowedAssets.reduce((total, asset) => {
+        return total + (parseFloat(asset.borrows.value) * asset.borrowWeight);
+    }, 0);
+
+    // Calcul du Borrow Limit (somme des dépôts * leur Open LTV respectif)
+    const borrowLimit = depositedAssets.reduce((total, asset) => {
+        return total + (parseFloat(asset.deposits.value) * asset.openLTV);
+    }, 0);
+
+    // Calcul du Liquidation Threshold (somme des dépôts * leur Close LTV respectif)
+    const liquidationThreshold = depositedAssets.reduce((total, asset) => {
+        return total + (parseFloat(asset.deposits.value) * asset.closeLTV);
+    }, 0);
 
     // Calcul des pourcentages pour la barre de progression
     const maxPercentage = 70; // La barre utilise 70% de l'espace total
-    const borrowPercentage = (weightedBorrows / borrowLimit) * maxPercentage; // ≈ 39%
-    const utilizationPercentage = maxPercentage - borrowPercentage; // ≈ 31%
-    const thresholdPercentage = ((closeLTV - openLTV) / openLTV) * maxPercentage; // ≈ 7%
+    const borrowPercentage = (weightedBorrows / borrowLimit) * maxPercentage;
+    const utilizationPercentage = maxPercentage - borrowPercentage;
+    const thresholdPercentage = ((liquidationThreshold - borrowLimit) / borrowLimit) * maxPercentage;
 
     if (!isConnected) {
         return (
@@ -78,11 +83,17 @@ const Accounts = () => {
                 <div className="account-metrics">
                     <div className="metric-row">
                         <div className="metric-item">
-                            <span className="metric-label">Weighted borrows</span>
+                            <div className="metric-header">
+                                <div className="color-indicator active"></div>
+                                <span className="metric-label">Weighted borrows</span>
+                            </div>
                             <span className="metric-value">${weightedBorrows.toFixed(2)}</span>
                         </div>
                         <div className="metric-item">
-                            <span className="metric-label">Borrow limit</span>
+                            <div className="metric-header">
+                                <div className="color-indicator warning"></div>
+                                <span className="metric-label">Borrow limit</span>
+                            </div>
                             <span className="metric-value">${borrowLimit.toFixed(2)}</span>
                         </div>
                     </div>
@@ -122,7 +133,10 @@ const Accounts = () => {
                     </div>
                     <div className="metric-row">
                         <div className="metric-item">
-                            <span className="metric-label">Liquidation threshold</span>
+                            <div className="metric-header">
+                                <div className="color-indicator danger"></div>
+                                <span className="metric-label">Liquidation threshold</span>
+                            </div>
                             <span className="metric-value">${liquidationThreshold.toFixed(2)}</span>
                         </div>
                     </div>
