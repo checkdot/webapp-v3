@@ -159,19 +159,25 @@
 
                 .metric-item {
                     flex: 1;
+                    border-radius: 8px;
+                    padding: 12px;
                     display: flex;
-                    justify-content: space-between;
-                    align-items: center;
+                    flex-direction: column;
+                    min-width: 0;
 
                     .metric-header {
                         display: flex;
                         align-items: center;
                         gap: 6px;
+                        margin-bottom: 4px;
+                        flex-shrink: 0;
 
                         .color-indicator {
+                            min-width: 8px;
                             width: 8px;
                             height: 8px;
                             border-radius: 2px;
+                            flex-shrink: 0;
 
                             &.active {
                                 background: linear-gradient(90deg, #2ecc71 0%, #27ae60 100%);
@@ -185,12 +191,23 @@
                                 background: #ff4757;
                             }
                         }
+
+                        .metric-label {
+                            font-size: 12px;
+                            color: var(--text-secondary);
+                            white-space: normal;
+                            line-height: 1.2;
+                        }
                     }
 
                     .metric-value {
                         font-size: 14px;
                         font-weight: 500;
                         color: var(--text-primary);
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        min-width: 0;
                     }
                 }
             }
