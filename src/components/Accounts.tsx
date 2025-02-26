@@ -16,8 +16,6 @@ const Accounts = () => {
     const equity = totalDeposits - totalBorrows;
     const netApr = 12.5; // À remplacer par le vrai calcul
 
-    console.log(borrowedAssets)
-
     // Calcul du Weighted Borrows (somme des emprunts * leur BW respectif)
     const weightedBorrows = borrowedAssets.reduce((total, asset) => {
         return total + (parseFloat(asset.borrows.value) * asset.borrowWeight);
