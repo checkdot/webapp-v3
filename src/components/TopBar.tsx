@@ -76,14 +76,14 @@ const TopBar: React.FC = () => {
                     </nav>
                 </div>
                 <div className="top-bar-right">
-                    <button 
+                    {/* <button 
                         className="theme-toggle" 
                         onClick={toggleTheme}
                         aria-label="Toggle theme"
                     >
                         {theme === 'dark' ? '🌞' : '🌙'}
-                    </button>
-                    <button 
+                    </button> */}
+                    {/* <button 
                         className="refresh-button"
                         onClick={handleRefresh}
                         disabled={isLoading('refresh')}
@@ -100,7 +100,7 @@ const TopBar: React.FC = () => {
                         >
                             <path d="M21.5 2v6h-6M2.5 22v-6h6M2 12c0-4.4 3.6-8 8-8 3.4 0 6.3 2.1 7.4 5M22 12c0 4.4-3.6 8-8 8-3.4 0-6.3-2.1-7.4-5"/>
                         </svg>
-                    </button>
+                    </button> */}
                     <div className="wallet-container" ref={dropdownRef}>
                         {!isConnected ? (
                             <button className="connect-wallet-button" onClick={handleConnect}>
