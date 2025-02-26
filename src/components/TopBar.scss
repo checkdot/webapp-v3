@@ -107,49 +107,126 @@
         }
     }
 
+    .wallet-container {
+        position: relative;
+    }
+
     .connect-wallet-button {
-        background: linear-gradient(135deg, var(--accent-color) 0%, #3ba167 100%);
-        color: white;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
         border: none;
-        padding: 0.625rem 1.25rem;
         border-radius: 8px;
-        font-weight: 500;
-        font-size: 0.9375rem;
-        letter-spacing: 0.01em;
+        color: white;
+        font-weight: 600;
         cursor: pointer;
         transition: all 0.2s ease;
-        box-shadow: 0 2px 8px rgba(70, 195, 123, 0.25);
-
-        &:hover {
-            background: linear-gradient(135deg, var(--accent-hover) 0%, #42b574 100%);
-            transform: translateY(-1px);
-        }
-
-        &:active {
-            transform: translateY(0);
-        }
-
-        .wallet-icon {
-            margin-right: 8px;
-            vertical-align: middle;
-        }
 
         &.connected {
-            background: rgba(70, 195, 123, 0.1);
-            border: 1px solid rgba(70, 195, 123, 0.3);
-            color: #46c37b;
-            box-shadow: none;
-
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            
             &:hover {
-                background: rgba(70, 195, 123, 0.15);
-                border-color: #46c37b;
-                transform: translateY(-1px);
+                background: rgba(255, 255, 255, 0.15);
             }
         }
 
+        .dropdown-arrow {
+            transition: transform 0.2s ease;
+            
+            &.open {
+                transform: rotate(180deg);
+            }
+        }
+    }
+}
+
+.wallet-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 280px;
+    background: rgb(13, 17, 28);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 16px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+
+    .dropdown-address {
+        padding-bottom: 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
         span {
-            vertical-align: middle;
-            font-family: monospace;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .net-worth {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+    }
+
+    .dropdown-actions {
+        padding-top: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+
+            svg {
+                opacity: 0.7;
+            }
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.05);
+            }
+
+            &.disconnect-button {
+                color: #ff4757;
+                
+                &:hover {
+                    background: rgba(255, 71, 87, 0.1);
+                }
+            }
+        }
+
+        .copy-button {
+            &.copied {
+                color: var(--primary-color);
+                background: rgba(46, 204, 113, 0.1);
+                pointer-events: none;
+            }
+
+            svg {
+                opacity: 0.7;
+                transition: all 0.2s ease;
+            }
+
+            &:hover svg {
+                opacity: 1;
+            }
         }
     }
 }

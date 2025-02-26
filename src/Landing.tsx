@@ -14,20 +14,6 @@ function Landing() {
         <div className="grid-overlay"></div>
       </div>
       
-      <div className="top-bar">
-        <div className="network-status">
-          <span className="status-dot"></span>
-          Network Status: Active
-        </div>
-        <div className="network-stats">
-          <span>Gas: 21 Gwei</span>
-          <span className="divider">|</span>
-          <span>Block: #14,233,324</span>
-          <span className="divider">|</span>
-          <span className="highlight">APY: 12.5%</span>
-        </div>
-      </div>
-      
       <div className="left-section">
         <img src="/logo.png" alt="Logo" className="logo" />
         <div className="title-section">
@@ -49,14 +35,14 @@ function Landing() {
             <path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" strokeWidth="2"/>
           </svg>
         </button>
-        <div className="partners">
+        {/* <div className="partners">
           <span>Trusted by</span>
           <div className="partner-logos">
             <img src="/partner1.png" alt="Partner 1" />
             <img src="/partner2.png" alt="Partner 2" />
             <img src="/partner3.png" alt="Partner 3" />
           </div>
-        </div>
+        </div> */}
         <p className="footer-text">
           Earn interest and borrow <strong>129 assets</strong> across <strong>28 pools</strong> on the fastest, lowest fee, and most scalable lending protocol
         </p>
