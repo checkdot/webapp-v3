@@ -212,12 +212,16 @@
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
   }
   
+  &:nth-child(1) {
+    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+  }
+  
   &:nth-child(2) {
-    background: linear-gradient(135deg, #27ae60 0%, #219a52 100%);
+    background: linear-gradient(135deg, #20a055 0%, #178442 100%);
   }
   
   &:nth-child(3) {
-    background: linear-gradient(135deg, #219a52 0%, #1a8544 100%);
+    background: linear-gradient(135deg, #167e40 0%, #0f5c2e 100%);
   }
 }
 
@@ -472,7 +476,8 @@
 .crypto-background {
   position: fixed;
   top: 0;
-  right: 0;
+  left: 55%;
+  transform: translateX(-50%);
   width: 50%;
   height: 120%;
   pointer-events: none;
@@ -500,10 +505,9 @@
   .umbrella-container {
     position: absolute;
     top: 5%;
-    right: 25%;
+    transform: translateX(-50%);
     z-index: 3;
     animation: floatUmbrella 6s ease-in-out infinite;
-    transform: scale(1.2);
     transform-origin: center center;
     
     .umbrella-icon {
@@ -549,7 +553,7 @@
     
     &:nth-child(1) { // ETH
       top: 15%;
-      right: 15%;
+      left: 15%;
       animation: floatToken1 8s ease-in-out infinite;
       width: 48px;
       height: 48px;
@@ -557,7 +561,7 @@
     
     &:nth-child(2) { // BTC
       top: 75%;
-      right: 25%;
+      left: 25%;
       animation: floatToken2 10s ease-in-out infinite;
       width: 44px;
       height: 44px;
@@ -565,25 +569,25 @@
     
     &:nth-child(3) { // USDT
       top: 45%;
-      right: 10%;
+      left: 10%;
       animation: floatToken3 9s ease-in-out infinite;
     }
     
     &:nth-child(4) { // BNB
       top: 85%;
-      right: 45%;
+      left: 45%;
       animation: floatToken4 11s ease-in-out infinite;
     }
     
     &:nth-child(5) { // USDC
       top: 25%;
-      right: 40%;
+      left: 40%;
       animation: floatToken5 8.5s ease-in-out infinite;
     }
     
     &:nth-child(6) { // LINK
       top: 65%;
-      right: 15%;
+      left: 15%;
       animation: floatToken1 9.5s ease-in-out infinite;
       width: 36px;
       height: 36px;
@@ -591,13 +595,13 @@
     
     &:nth-child(7) { // UNI
       top: 35%;
-      right: 30%;
+      left: 30%;
       animation: floatToken2 7.5s ease-in-out infinite;
     }
     
     &:nth-child(8) { // AAVE
       top: 55%;
-      right: 35%;
+      left: 35%;
       animation: floatToken3 8.5s ease-in-out infinite;
     }
   }
