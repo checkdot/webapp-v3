@@ -184,7 +184,7 @@
                             }
 
                             &.warning {
-                                background: rgba(255, 255, 255, 0.3);
+                                background: rgb(190, 190, 190);
                             }
 
                             &.danger {
@@ -262,7 +262,7 @@
                     }
 
                     .limit-marker {
-                        background: #f1c40f;
+                        background: rgb(190, 190, 190);
                     }
 
                     .liquidation-marker {
@@ -295,7 +295,7 @@
                             }
 
                             &.warning {
-                                background: rgba(255, 255, 255, 0.3);
+                                background: rgb(190, 190, 190);
                             }
 
                             &.danger {
@@ -415,7 +415,7 @@
                 p {
                     font-size: 12px;
                     text-transform: uppercase;
-                    color: #6670A3;
+                    color: #fff;
                     opacity: 0.9;
                     margin: 0;
                     position: relative;
