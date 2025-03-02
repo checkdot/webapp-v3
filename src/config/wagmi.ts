@@ -24,6 +24,12 @@ const connectors = [
   injected({ 
     target: 'metaMask' // Pour cibler spécifiquement MetaMask
   }),
+  injected({
+    target: 'pontem' // Pour cibler spécifiquement Pontem
+  }),
+  injected({
+    target: 'phantom' // Pour cibler spécifiquement Phantom
+  }),
   walletConnect({ 
     projectId: projectId,
     metadata

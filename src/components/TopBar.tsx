@@ -1,17 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
+
+import { useNavigate } from 'react-router-dom';
 import { useWallet } from '../contexts/WalletContext';
+import WalletSelector from './WalletSelector';
 import { useStats } from '../contexts/StatsContext';
 import { useLoading } from '../contexts/LoadingContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAssets } from '../contexts/AssetsContext';
 import './TopBar.scss';
-import { Link } from 'react-router-dom';
 
-const TopBar: React.FC = () => {
-    const { connect, disconnect, isConnected, address } = useWallet();
+const TopBar = () => {
+    const navigate = useNavigate();
+    const { connect, disconnect, address, isConnected } = useWallet();
+    const [isWalletSelectorOpen, setIsWalletSelectorOpen] = useState(false);
     const { refreshStats } = useStats();
-    const { isLoading, startLoading, stopLoading } = useLoading();
-    const { theme, toggleTheme } = useTheme();
+    const { startLoading, stopLoading } = useLoading();
     const { updateAssetBalances } = useAssets();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [showCopyConfirmation, setShowCopyConfirmation] = useState(false);
@@ -37,10 +40,29 @@ const TopBar: React.FC = () => {
         stopLoading('refresh');
     };
 
-    const handleConnect = async () => {
+    const handleWalletSelect = async (wallet: string) => {
         try {
             startLoading('wallet');
-            await connect();
+            let success = false;
+
+            if (wallet === 'metamask') {
+                await connect('metaMask');
+                success = true;
+            } else if (wallet === 'walletconnect') {
+                await connect('walletConnect');
+                success = true;
+            } else if (wallet === 'coinbasewallet') {
+                await connect('coinbaseWallet');
+                success = true;
+            } else if (wallet === 'pontem') {
+                await connect('pontem');
+                success = true;
+            }
+
+            if (success) {
+                await handleRefresh();
+                setIsWalletSelectorOpen(false);
+            }
         } catch (error) {
             console.error('Failed to connect wallet:', error);
         } finally {
@@ -51,8 +73,21 @@ const TopBar: React.FC = () => {
     const handleDisconnect = async () => {
         try {
             await disconnect();
+            setIsDropdownOpen(false);
         } catch (error) {
             console.error('Failed to disconnect wallet:', error);
+        }
+    };
+
+    const handleCopyAddress = async () => {
+        if (address) {
+            try {
+                await navigator.clipboard.writeText(address);
+                setShowCopyConfirmation(true);
+                setTimeout(() => setShowCopyConfirmation(false), 2000);
+            } catch (error) {
+                console.error('Failed to copy address:', error);
+            }
         }
     };
 
@@ -60,59 +95,27 @@ const TopBar: React.FC = () => {
         return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
     };
 
-    const handleCopyAddress = async () => {
-        await navigator.clipboard.writeText(address || '');
-        setShowCopyConfirmation(true);
-        setTimeout(() => setShowCopyConfirmation(false), 2000);
-    };
-
     return (
-        <div className="top-bar">
-            <div className="top-bar-content">
-                <div className="top-bar-left">
-                    <img src="/logo.png" alt="Logo" className="nav-logo" />
-                    <nav className="nav-links">
-                        <a href="/app">Dashboard</a>
-                    </nav>
-                </div>
-                <div className="top-bar-right">
-                    {/* <button 
-                        className="theme-toggle" 
-                        onClick={toggleTheme}
-                        aria-label="Toggle theme"
-                    >
-                        {theme === 'dark' ? '🌞' : '🌙'}
-                    </button> */}
-                    {/* <button 
-                        className="refresh-button"
-                        onClick={handleRefresh}
-                        disabled={isLoading('refresh')}
-                    >
-                        <svg 
-                            className={isLoading('refresh') ? 'spinning' : ''} 
-                            xmlns="http://www.w3.org/2000/svg" 
-                            width="20" 
-                            height="20" 
-                            viewBox="0 0 24 24" 
-                            fill="none" 
-                            stroke="currentColor" 
-                            strokeWidth="2"
-                        >
-                            <path d="M21.5 2v6h-6M2.5 22v-6h6M2 12c0-4.4 3.6-8 8-8 3.4 0 6.3 2.1 7.4 5M22 12c0 4.4-3.6 8-8 8-3.4 0-6.3-2.1-7.4-5"/>
-                        </svg>
-                    </button> */}
-                    <div className="wallet-container" ref={dropdownRef}>
-                        {!isConnected ? (
-                            <button className="connect-wallet-button" onClick={handleConnect}>
-                                Connect Wallet
-                            </button>
-                        ) : (
-                            <>
+        <>
+            <div className="top-bar">
+                <div className="top-bar-content">
+                    <div className="top-bar-left">
+                        <img 
+                            src="/logo.png" 
+                            alt="Logo" 
+                            className="logo" 
+                            onClick={() => navigate('/')}
+                        />
+                    </div>
+                
+                    <div className="top-bar-right">
+                        {isConnected && address ? (
+                            <div className="wallet-container" ref={dropdownRef}>
                                 <button 
                                     className="connect-wallet-button connected"
                                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                                 >
-                                    <span className="address">{formatAddress(address || '')}</span>
+                                    <span className="address">{formatAddress(address)}</span>
                                     <svg 
                                         className={`dropdown-arrow ${isDropdownOpen ? 'open' : ''}`}
                                         width="12" 
@@ -126,8 +129,8 @@ const TopBar: React.FC = () => {
                                 {isDropdownOpen && (
                                     <div className="wallet-dropdown">
                                         <div className="dropdown-address">
-                                            <span>Net worth</span>
-                                            <span className="net-worth">$6.00</span>
+                                            <span>Connected with {address && window.ethereum?.isMetaMask ? 'MetaMask' : 'WalletConnect'}</span>
+                                            <span className="address">{formatAddress(address)}</span>
                                         </div>
                                         <div className="dropdown-actions">
                                             <button 
@@ -161,12 +164,25 @@ const TopBar: React.FC = () => {
                                         </div>
                                     </div>
                                 )}
-                            </>
+                            </div>
+                        ) : (
+                            <button 
+                                className="connect-wallet-button"
+                                onClick={() => setIsWalletSelectorOpen(true)}
+                            >
+                                Connect Wallet
+                            </button>
                         )}
                     </div>
                 </div>
             </div>
-        </div>
+
+            <WalletSelector
+                isOpen={isWalletSelectorOpen}
+                onClose={() => setIsWalletSelectorOpen(false)}
+                onSelect={handleWalletSelect}
+            />
+        </>
     );
 };
 

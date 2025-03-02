@@ -7,7 +7,7 @@ import { wagmiAdapter } from '../config/wagmi';
 interface WalletContextType {
   address: string | undefined;
   isConnected: boolean;
-  connect: () => Promise<void>;
+  connect: (connectorType?: 'metaMask' | 'walletConnect' | 'coinbaseWallet' | 'pontem' | 'phantom') => Promise<void>;
   disconnect: () => void;
 }
 
@@ -28,16 +28,46 @@ export const WalletProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const { startLoading, stopLoading } = useLoading();
   const { addError } = useError();
 
-  const connect = async () => {
+  const connect = async (connectorType?: 'metaMask' | 'walletConnect' | 'coinbaseWallet' | 'pontem' | 'phantom') => {
     try {
       startLoading('wallet');
-      const connector = connectors[0]; // Utilise le premier connecteur disponible
-      if (!connector) {
-        throw new Error('No connector available');
+      let connector;
+      
+      if (connectorType) {
+        if (connectorType === 'pontem' && !(window as any).pontem) {
+          addError('Pontem wallet is not installed. Please install it from the Chrome Web Store.');
+          return;
+        }
+        if (connectorType === 'phantom' && !(window as any).phantom?.solana) {
+          addError('Phantom wallet is not installed. Please install it from phantom.app');
+          return;
+        }
+
+        connector = connectors.find(c => c.id === connectorType);
+        if (!connector) {
+          if (connectorType === 'metaMask' && !(window as any).ethereum?.isMetaMask) {
+            addError('MetaMask is not installed. Please install it from metamask.io');
+          } else {
+            addError(`${connectorType} wallet is not installed. Please install it first.`);
+          }
+          return;
+        }
+      } else {
+        connector = connectors[0];
       }
+
+      if (!connector) {
+        addError('No wallet connector available');
+        return;
+      }
+
       await connectAsync({ connector });
     } catch (error) {
-      addError('Failed to connect wallet');
+      if (error instanceof Error) {
+        addError(error.message);
+      } else {
+        addError('Failed to connect wallet');
+      }
       console.error('Wallet connection error:', error);
     } finally {
       stopLoading('wallet');
