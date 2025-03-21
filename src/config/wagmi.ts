@@ -2,7 +2,7 @@ import { createAppKit } from '@reown/appkit/react';
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
 import { arbitrum, mainnet } from '@reown/appkit/networks';
 import { QueryClient } from '@tanstack/react-query';
-import { injected, walletConnect, coinbaseWallet } from 'wagmi/connectors';
+import { injected, walletConnect } from 'wagmi/connectors';
 
 // Configuration du client de requête
 export const queryClient = new QueryClient();
@@ -22,21 +22,28 @@ const networks = [mainnet, arbitrum];
 // Création des connecteurs
 const connectors = [
   injected({ 
-    target: 'metaMask' // Pour cibler spécifiquement MetaMask
+    target: 'metaMask',
+    shimDisconnect: true
   }),
   injected({
-    target: 'pontem' // Pour cibler spécifiquement Pontem
+    target: 'phantom',
+    shimDisconnect: true
   }),
   injected({
-    target: 'phantom' // Pour cibler spécifiquement Phantom
+    target: 'injected',
+    shimDisconnect: true,
+    getProvider: () => (window as any).pontem,
+    name: 'Pontem'
+  }),
+  injected({
+    target: 'injected',
+    shimDisconnect: true,
+    getProvider: () => (window as any).martian,
+    name: 'Martian'
   }),
   walletConnect({ 
     projectId: projectId,
     metadata
-  }),
-  coinbaseWallet({
-    appName: metadata.name,
-    appLogoUrl: metadata.icons[0]
   })
 ];
 

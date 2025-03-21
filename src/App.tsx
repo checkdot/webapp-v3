@@ -10,7 +10,7 @@ import TopBar from './components/TopBar';
 import LoadingIndicator from './components/LoadingIndicator';
 import Landing from './Landing';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useWallet } from './contexts/WalletContext';
 import WalletSelector from './components/WalletSelector';
 
 import './App.scss'
@@ -129,24 +129,31 @@ const MainContent = () => {
   );
 };
 
+const AppContent = () => {
+  const { isWalletSelectorOpen, setIsWalletSelectorOpen, handleWalletSelect } = useWallet();
+
+  return (
+    <Routes>
+      <Route path="/" element={<Landing />} />
+      <Route path="/app" element={
+        <>
+          <div id="modal-root" />
+          <TopBar />
+          <LoadingIndicator />
+          <MainContent />
+          <WalletSelector
+            isOpen={isWalletSelectorOpen}
+            onClose={() => setIsWalletSelectorOpen(false)}
+            onSelect={handleWalletSelect}
+          />
+        </>
+      } />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  );
+};
+
 function App() {
-  const [isWalletSelectorOpen, setIsWalletSelectorOpen] = useState(false);
-
-  const handleWalletSelect = (wallet: string) => {
-    console.log('Selected wallet:', wallet);
-    // Ici, vous pouvez ajouter la logique de connexion au wallet
-    switch (wallet) {
-      case 'metamask':
-        // Connecter à MetaMask
-        break;
-      case 'walletconnect':
-        // Connecter à WalletConnect
-        break;
-      default:
-        break;
-    }
-  };
-
   return (
     <AppKitProvider>
       <ErrorProvider>
@@ -156,23 +163,7 @@ function App() {
               <StatsProvider>
                 <AssetsProvider>
                   <ModalProvider>
-                    <Routes>
-                      <Route path="/" element={<Landing />} />
-                      <Route path="/app" element={
-                        <>
-                          <div id="modal-root" />
-                          <TopBar />
-                          <LoadingIndicator />
-                          <MainContent />
-                          <WalletSelector
-                            isOpen={isWalletSelectorOpen}
-                            onClose={() => setIsWalletSelectorOpen(false)}
-                            onSelect={handleWalletSelect}
-                          />
-                        </>
-                      } />
-                      <Route path="*" element={<Navigate to="/" replace />} />
-                    </Routes>
+                    <AppContent />
                   </ModalProvider>
                 </AssetsProvider>
               </StatsProvider>
